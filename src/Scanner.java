@@ -115,6 +115,7 @@ public class Scanner {
                 State currState = nfaStates.get(state);
                 State nextState = nfaStates.get(dest);
                 currState.addTransition(input, nextState);
+                currState.setEClosure();
                 nfaStates.put(state, currState);
             }
         }

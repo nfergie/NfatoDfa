@@ -17,6 +17,10 @@ public class Nfa {
         this.language = language;
     }
 
+    public HashSet<String> getLanguage() {
+        return language;
+    }
+
     public void setStartState(State state){
         this.startState = state;
     }
@@ -87,17 +91,12 @@ public class Nfa {
     */
 
     public HashSet<State> nextStates(String input, State thisState) {
-        HashSet<State> next = thisState.transitionFunction.get(input);
-        if (thisState.name.size() == 1) {
-            return next;
-        } else {
-            HashSet<String> posStates = thisState.name;
-            for (String state : posStates) {
-                for(State nfaStates : states){
-                    if(nfaStates.name.contains(state)){
-                        next.add(nfaStates);
-                    }
-                }
+        HashSet<State> nextSet = thisState.transitionFunction.get(input);
+        HashSet<State> next = null;
+        if(nextSet != null){
+            next = new HashSet<>();
+            for(State state : nextSet){
+                next.addAll(state.eClosure);
             }
         }
         return next;
