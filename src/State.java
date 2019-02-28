@@ -98,9 +98,8 @@ public class State {
         return newState;
     }
 
-    public HashSet<State> nextStates(String input){
-        return this.transitionFunction.get(input);
-    }
+
+
 
 
     /*

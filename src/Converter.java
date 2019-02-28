@@ -9,8 +9,5 @@ public class Converter {
         for(State state : nfa.getStates()){
             state.setEClosure();
         }
-        Dfa dfa = nfa.createDfa();
-
-        System.out.println(dfa.startStateToString());
     }
 }
