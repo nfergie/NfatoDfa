@@ -12,7 +12,7 @@ public class Converter {
             System.out.println(state.transitionFunction);
             for(String input : nfa.getLanguage()){
                 System.out.println(input);
-                System.out.println(nfa.nextStates(input, state));
+                System.out.println(state.nextStates(input));
             }
         }
     }

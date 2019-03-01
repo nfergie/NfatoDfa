@@ -98,6 +98,18 @@ public class State {
         return newState;
     }
 
+    public HashSet<State> nextStates(String input) {
+        HashSet<State> nextSet = transitionFunction.get(input);
+        HashSet<State> next = null;
+        if(nextSet != null){
+            next = new HashSet<>();
+            for(State state : nextSet){
+                next.addAll(state.eClosure);
+            }
+        }
+        return next;
+    }
+
 
 
 

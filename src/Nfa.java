@@ -61,14 +61,13 @@ public class Nfa {
 
 
         HashSet<State> visited = new HashSet<>();
-        //HashSet<State> allStates = createDfaUtil(newStart, visited);
+        HashSet<State> allStates = createDfaUtil(dfa, newStart, visited);
 
 
         return dfa;
     }
-    /*
 
-    public HashSet<State> createDfaUtil(State startState, HashSet<State> visited){
+    public HashSet<State> createDfaUtil(Dfa dfa, State startState, HashSet<State> visited){
         Stack<State> stack = new Stack<>();
 
 
@@ -78,27 +77,21 @@ public class Nfa {
             State s = stack.pop();
 
             if(!visited.contains(s)){
-                for(String input : language){
-                    HashSet<State> nextStateHash = s.nextStates(input);
 
-                }
+
+
+
+
                 visited.add(s);
             }
         }
 
         return visited;
     }
-    */
 
-    public HashSet<State> nextStates(String input, State thisState) {
-        HashSet<State> nextSet = thisState.transitionFunction.get(input);
-        HashSet<State> next = null;
-        if(nextSet != null){
-            next = new HashSet<>();
-            for(State state : nextSet){
-                next.addAll(state.eClosure);
-            }
-        }
-        return next;
-    }
+
+
+
+
+
 }
