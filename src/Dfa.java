@@ -13,10 +13,6 @@ public class Dfa {
         states = new HashSet<>();
     }
 
-    public void setStartState(State startState) {
-
-        this.startState = startState;
-    }
 
     public String startStateToString(){
         String startStateString = startState.name.toString();
@@ -31,6 +27,21 @@ public class Dfa {
         language = lang;
     }
 
+    public boolean addState(State state){
+        if(state.isStart){
+            startState = state;
+        }
+        if(state.isAccept){
+            acceptStates.add(state);
+        }
+        if(states.add(state)){
+            return true;
+        }else{
+            return false;
+        }
+    }
 
-
+    public State getStartState() {
+        return startState;
+    }
 }

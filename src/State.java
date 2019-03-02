@@ -83,18 +83,15 @@ public class State {
     }
 
     //converts a HashSet<State> into a single state for use in nfa to dfa conversion
-    public State singleStateCreator(HashSet<State> states){
+    public State startStateCreator(HashSet<State> states){
         State newState = new State();
         for(State state : states){
             newState.name.addAll(state.name);
-            if(state.isStart){
-                newState.setIsStart();
-            }
+            newState.setIsStart();
             if(state.isAccept){
                 newState.setIsAccept();
             }
         }
-
         return newState;
     }
 

@@ -48,50 +48,32 @@ public class Nfa {
 
 
     //translates nfa to dfa with helper functions
-    public Dfa createDfa(){
+    public Dfa createDfa() {
         Dfa dfa = new Dfa();
-        State newStart = this.startState.singleStateCreator(startState.eClosure);
-        dfa.setStartState(newStart);
-
-        if(newStart.isAccept){
-            dfa.addAcceptState(newStart);
-        }
-
         dfa.setLanguage(language);
 
-
-        HashSet<State> visited = new HashSet<>();
-        HashSet<State> allStates = createDfaUtil(dfa, newStart, visited);
+        //create startState
+        State startStateDfa = startState.startStateCreator(startState.eClosure);
+        startStateDfa.transitionFunction = newTransFunc(startState.eClosure);
+        dfa.addState(startStateDfa);
 
 
         return dfa;
     }
 
-    public HashSet<State> createDfaUtil(Dfa dfa, State startState, HashSet<State> visited){
-        Stack<State> stack = new Stack<>();
+    private HashMap<String, HashSet<State>> newTransFunc(HashSet<State> states){
+        HashMap<String, HashSet<State>> transFunc = new HashMap<>();
+        for(String input : language){
+            HashSet<State> nextStates = new HashSet<>();
+            for(State state :states){
+                HashSet<State> next = state.nextStates(input);
+                if(next != null){
+                    nextStates.addAll(next);
+                }
 
-
-        stack.push(startState);
-
-        while(!stack.empty()){
-            State s = stack.pop();
-
-            if(!visited.contains(s)){
-
-
-
-
-
-                visited.add(s);
             }
+            transFunc.put(input, nextStates);
         }
-
-        return visited;
+        return transFunc;
     }
-
-
-
-
-
-
 }
