@@ -44,4 +44,8 @@ public class Dfa {
     public State getStartState() {
         return startState;
     }
+
+    public HashSet<State> getStates() {
+        return states;
+    }
 }

@@ -17,5 +17,8 @@ public class Converter {
         }*/
 
         Dfa dfa = nfa.createDfa();
+        for(State state : dfa.getStates()){
+            System.out.println(state.name);
+        }
     }
 }

@@ -57,9 +57,34 @@ public class Nfa {
         startStateDfa.transitionFunction = newTransFunc(startState.eClosure);
         dfa.addState(startStateDfa);
 
+        HashSet<State> visited = new HashSet<>();
+        //dfs for creation of nfa recursion
+        dfaUtil(visited, startStateDfa);
+
+        for(State state : visited){
+            dfa.addState(state);
+        }
 
         return dfa;
     }
+
+    private void dfaUtil(HashSet<State> visited, State state){
+        if(state != null){
+            visited.add(state);
+        }
+
+
+        for(String input : language){
+            HashSet<State> next = state.nextStates(input);
+            State newState = stateCreator(next);
+            newState.transitionFunction = newTransFunc(next);
+
+            if(!visited.contains(newState)){
+                dfaUtil(visited, newState);
+            }
+       }
+    }
+
 
     private HashMap<String, HashSet<State>> newTransFunc(HashSet<State> states){
         HashMap<String, HashSet<State>> transFunc = new HashMap<>();
@@ -75,5 +100,17 @@ public class Nfa {
             transFunc.put(input, nextStates);
         }
         return transFunc;
+    }
+
+    private State stateCreator(HashSet<State> states){
+        State newState = new State();
+        newState.isStart = false;
+        for(State state : states){
+            newState.name.addAll(state.name);
+            if(state.isAccept){
+                newState.setIsAccept();
+            }
+        }
+        return newState;
     }
 }
