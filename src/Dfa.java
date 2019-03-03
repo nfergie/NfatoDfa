@@ -61,30 +61,28 @@ public class Dfa {
     public HashSet<State> getStates() {
         return states;
     }
-/*
+
     public void dfaCleanup(){
         for(State state : states){
-            HashMap<String, HashSet<State>> transFunc = state.transitionFunction;
             for(String input : language){
-                HashSet<State> containedStates = transFunc.get(input);
-                if(containedStates.size() != 0){
-                    HashSet<String> stateNames = new HashSet<String>();
-                    for(State cState : containedStates){
-                        stateNames.addAll(cState.name);
-                    }
-                    for(State checkState : states){
-                        if(checkState.name.contains(stateNames)
-                                && checkState.name.size() == stateNames.size()){
-                            containedStates.clear();
-                            containedStates.add(checkState);
-                            state.transitionFunction.put(input, containedStates);
-                        }
+                HashSet<State> transStates = state.transitionFunction.get(input);
+                HashSet<String> stateNames = new HashSet<>();
+                for(State transState : transStates){
+                    stateNames.addAll(transState.name);
+                }
+                for(State posStates : states){
+                    if(posStates.name.size() == stateNames.size()
+                    && posStates.name.containsAll(stateNames)){
+                        HashSet<State> newState = new HashSet<>();
+                        newState.add(posStates);
+                        state.transitionFunction.put(input, newState);
+
                     }
                 }
             }
         }
     }
-    */
+
 
     public void dfaWriter(){
         try{

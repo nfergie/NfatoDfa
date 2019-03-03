@@ -7,6 +7,8 @@ public class Converter {
         Scanner sc = new Scanner("input.nfa");
         Nfa nfa = sc.createNfa();
         Dfa dfa = nfa.createDfa();
-        dfa.dfaWriter();
+        dfa.dfaCleanup();
+        //dfa.dfaWriter();
+
     }
 }
