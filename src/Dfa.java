@@ -121,17 +121,22 @@ public class Dfa {
             s.append('\n');
 
             //write transition functions
-            /*for(State state : states){
+            for(State state : states){
                 String name = state.name.toString().replace(
                         '[', '{').replace(']', '}');
                 for(String input : language){
-                    s.append(name + ", " + input + " = {");
-                    HashSet<State> trans = state.transitionFunction.get(input);
-                    s.append(trans);
+                    s.append(name + ", " + input + " = ");
+                    HashSet<State> transFunc = state.transitionFunction.get(input);
+                    for(State transState : transFunc){
+                        s.append(transState.name.toString().replace(
+                                '[', '{').replace(']', '}'));
+                    }
                     s.append('\n');
                 }
-            }*/
+            }
             System.out.println(s.toString());
+            writer.write(s.toString());
+            writer.close();
 
         } catch (IOException e){
             e.printStackTrace();

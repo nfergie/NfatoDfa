@@ -8,7 +8,6 @@ public class Converter {
         Nfa nfa = sc.createNfa();
         Dfa dfa = nfa.createDfa();
         dfa.dfaCleanup();
-        //dfa.dfaWriter();
-
+        dfa.dfaWriter();
     }
 }
