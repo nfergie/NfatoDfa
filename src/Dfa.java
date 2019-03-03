@@ -134,7 +134,7 @@ public class Dfa {
                     s.append('\n');
                 }
             }
-            System.out.println(s.toString());
+            //System.out.println(s.toString());
             writer.write(s.toString());
             writer.close();
 
