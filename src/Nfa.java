@@ -62,8 +62,12 @@ public class Nfa {
         dfaUtil(visited, startStateDfa);
 
         for(State state : visited){
-            dfa.addState(state);
+            if(state.name.size() != 0){
+                dfa.addState(state);
+            }
         }
+
+        //dfa.dfaCleanup();
 
         return dfa;
     }
