@@ -6,7 +6,7 @@ This class is used to read the input NFA file and creates the NFA
  */
 
 
-public class Scanner {
+class Scanner {
     private HashSet<String> states;
     private HashSet<String> language;
     private ArrayList<String> transFunctions;
@@ -14,14 +14,14 @@ public class Scanner {
     private HashSet<String> acceptStates;
 
     //Reads the file and collects relevant data
-    public Scanner(String filename){
+    Scanner(String filename){
         try{
             File f = new File(filename);
             BufferedReader reader = new BufferedReader(
                     new InputStreamReader(new FileInputStream(f)));
 
             //regex for in between brackets
-            Pattern p = Pattern.compile("\\{([^}]*)\\}");
+            Pattern p = Pattern.compile("\\{([^}]*)}");
             String line = reader.readLine();
             Matcher m = p.matcher(line);
 
@@ -63,7 +63,7 @@ public class Scanner {
         }
     }
 
-    public Nfa createNfa(){
+    Nfa createNfa(){
         HashMap<String, State> nfaStates = new HashMap<>();
         Nfa nfa = new Nfa();
 
@@ -87,7 +87,7 @@ public class Scanner {
             nfaStates.put(state, newState);
         }
 
-        Pattern p = Pattern.compile("\\{([^}]*)\\}");
+        Pattern p = Pattern.compile("\\{([^}]*)}");
         Pattern q = Pattern.compile(",\\s(.*)=");
 
         //parse transition functions
@@ -99,25 +99,24 @@ public class Scanner {
             Matcher n = q.matcher(trans);
             if (m.find())
             {
-                state = m.group(1).replaceAll("\\s+","");;
+                state = m.group(1).replaceAll("\\s+","");
             }
             if (n.find())
             {
-                input = n.group(1).replaceAll("\\s+","");;
+                input = n.group(1).replaceAll("\\s+","");
             }
             if (m.find())
             {
-                dest = m.group(1).replaceAll("\\s+","");;
+                dest = m.group(1).replaceAll("\\s+","");
             }
 
             //add transition function to state
-            if((state != null) && (input != null) && (dest != null)){
-                State currState = nfaStates.get(state);
-                State nextState = nfaStates.get(dest);
-                currState.addTransition(input, nextState);
-                currState.setEClosure();
-                nfaStates.put(state, currState);
-            }
+            State currState = nfaStates.get(state);
+            State nextState = nfaStates.get(dest);
+            currState.addTransition(input, nextState);
+            currState.setEClosure();
+            nfaStates.put(state, currState);
+
         }
 
         //add states to the nfa

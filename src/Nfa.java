@@ -1,34 +1,30 @@
 import java.util.*;
 
-public class Nfa {
+class Nfa {
     private HashSet<String> language;
     private State startState;
     private HashSet<State> acceptStates;
     private HashSet<State> states;
 
-    public Nfa(){
-        language = new HashSet<String>();
+    Nfa(){
+        language = new HashSet<>();
         startState = null;
-        acceptStates = new HashSet<State>();
-        states = new HashSet<State>();
+        acceptStates = new HashSet<>();
+        states = new HashSet<>();
     }
 
-    public void setLanguage(HashSet<String> language) {
+    void setLanguage(HashSet<String> language) {
         this.language = language;
     }
 
-    public HashSet<String> getLanguage() {
-        return language;
-    }
-
-    public void setStartState(State state){
+    private void setStartState(State state){
         this.startState = state;
     }
-    public boolean addAcceptState(State state){
-        return this.acceptStates.add(state);
+    private void addAcceptState(State state){
+        this.acceptStates.add(state);
     }
 
-    public void addState(State state){
+    void addState(State state){
         states.add(state);
         if(state.getIsAccept()){
             this.addAcceptState(state);
@@ -38,17 +34,8 @@ public class Nfa {
         }
     }
 
-    public HashSet<State> getStates() {
-        return states;
-    }
-
-    public State getStartState() {
-        return startState;
-    }
-
-
     //translates nfa to dfa with helper functions
-    public Dfa createDfa() {
+    Dfa createDfa() {
         Dfa dfa = new Dfa();
         dfa.setLanguage(language);
 
@@ -67,26 +54,25 @@ public class Nfa {
             }
         }
 
-        //dfa.dfaCleanup();
-
         return dfa;
     }
 
     private void dfaUtil(HashSet<State> visited, State state){
-        if(state != null){
+        if(state != null) {
             visited.add(state);
-        }
 
+            for (String input : language) {
+                HashSet<State> next = state.nextStates(input);
+                if (next != null) {
+                    State newState = stateCreator(next);
+                    newState.transitionFunction = newTransFunc(next);
 
-        for(String input : language){
-            HashSet<State> next = state.nextStates(input);
-            State newState = stateCreator(next);
-            newState.transitionFunction = newTransFunc(next);
-
-            if(!visited.contains(newState)){
-                dfaUtil(visited, newState);
+                    if (!visited.contains(newState)) {
+                        dfaUtil(visited, newState);
+                    }
+                }
             }
-       }
+        }
     }
 
 

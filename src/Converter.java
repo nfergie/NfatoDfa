@@ -1,6 +1,3 @@
-import javax.imageio.IIOException;
-import java.util.*;
-
 public class Converter {
 
     public static void main(String[] args){

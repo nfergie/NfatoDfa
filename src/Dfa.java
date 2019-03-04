@@ -1,68 +1,34 @@
-import javax.imageio.IIOException;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
-public class Dfa {
+class Dfa {
     private HashSet<String> language;
     private State startState;
     private HashSet<State> acceptStates;
     private HashSet<State> states;
 
-    public Dfa(){
+    Dfa(){
         language = new HashSet<>();
         startState = null;
         acceptStates = new HashSet<>();
         states = new HashSet<>();
     }
 
-
-    public String startStateToString(){
-        String startStateString = startState.name.toString();
-        return startStateString;
-    }
-
-    public void addAcceptState(State acceptState){
-        acceptStates.add(acceptState);
-    }
-
-    public HashSet<State> getAcceptStates() {
-        return acceptStates;
-    }
-
-    public void setLanguage(HashSet<String> lang){
+    void setLanguage(HashSet<String> lang){
         language = lang;
     }
 
-    public HashSet<String> getLanguage() {
-        return language;
-    }
-
-    public boolean addState(State state){
+    void addState(State state){
         if(state.isStart){
             startState = state;
         }
         if(state.isAccept){
             acceptStates.add(state);
         }
-        if(states.add(state)){
-            return true;
-        }else{
-            return false;
-        }
+        states.add(state);
     }
 
-    public State getStartState() {
-        return startState;
-    }
-
-    public HashSet<State> getStates() {
-        return states;
-    }
-
-    public void dfaCleanup(){
+    void dfaCleanup(){
         for(State state : states){
             for(String input : language){
                 HashSet<State> transStates = state.transitionFunction.get(input);
@@ -84,10 +50,10 @@ public class Dfa {
     }
 
 
-    public void dfaWriter(){
+    void dfaWriter(){
         try{
             BufferedWriter writer = new BufferedWriter(new FileWriter("output.dfa"));
-            StringBuffer s = new StringBuffer();
+            StringBuilder s = new StringBuilder();
 
             //write all states
             for (State state : states){
@@ -125,7 +91,10 @@ public class Dfa {
                 String name = state.name.toString().replace(
                         '[', '{').replace(']', '}');
                 for(String input : language){
-                    s.append(name + ", " + input + " = ");
+                    s.append(name);
+                    s.append(", ");
+                    s.append(input);
+                    s.append(" = ");
                     HashSet<State> transFunc = state.transitionFunction.get(input);
                     for(State transState : transFunc){
                         s.append(transState.name.toString().replace(

@@ -1,45 +1,41 @@
 import java.util.*;
 
 public class State {
-    public HashSet<String> name;
-    public boolean isStart;
-    public boolean isAccept;
-    public HashMap<String, HashSet<State>> transitionFunction;
-    public HashSet<State> eClosure;
+    HashSet<String> name;
+    boolean isStart;
+    boolean isAccept;
+    HashMap<String, HashSet<State>> transitionFunction;
+    HashSet<State> eClosure;
 
-    public State(){
+    State(){
         name = new HashSet<>();
         isStart = false;
         isAccept = false;
         transitionFunction = new HashMap<>();
     }
 
-    public void addToName(HashSet<String> name) {
-        this.name.addAll(name);
-    }
-
-    public void addToName(String name){
+    void addToName(String name){
         this.name.add(name);
     }
 
-    public boolean getIsAccept(){
+    boolean getIsAccept(){
         return isAccept;
     }
 
-    public void setIsAccept(){
+    void setIsAccept(){
         isAccept = true;
     }
 
-    public boolean getIsStart(){
+    boolean getIsStart(){
         return isStart;
     }
 
-    public void setIsStart(){
+    void setIsStart(){
         isStart = true;
     }
 
     //safely adds transition function to the state
-    public void addTransition(String input, State nextState){
+    void addTransition(String input, State nextState){
         if(!transitionFunction.containsKey(input)){
             HashSet<State> transitions = new HashSet<>();
             transitions.add(nextState);
@@ -51,24 +47,13 @@ public class State {
         }
     }
 
-    public void addTransition(String input, HashSet<State> nextState){
-        if(!transitionFunction.containsKey(input)){
-            transitionFunction.put(input, nextState);
-        }else{
-            HashSet<State> currStates = transitionFunction.get(input);
-            currStates.addAll(nextState);
-            transitionFunction.put(input, currStates);
-        }
-    }
-
     //sets epsilon closure for state
-    public void setEClosure(){
-        HashSet<State> closed = this.findEClosure();
-        eClosure = closed;
+    void setEClosure(){
+        eClosure = this.findEClosure();
     }
 
     //recursive helper function
-    public HashSet<State> findEClosure(){
+    private HashSet<State> findEClosure(){
         HashSet<State> closed = new HashSet<>();
         closed.add(this);
 
@@ -83,7 +68,7 @@ public class State {
     }
 
     //converts a HashSet<State> into a single state for use in nfa to dfa conversion
-    public State startStateCreator(HashSet<State> states){
+    State startStateCreator(HashSet<State> states){
         State newState = new State();
         newState.setIsStart();
         for(State state : states){
@@ -95,7 +80,7 @@ public class State {
         return newState;
     }
 
-    public HashSet<State> nextStates(String input) {
+    HashSet<State> nextStates(String input) {
         HashSet<State> nextSet = transitionFunction.get(input);
         HashSet<State> next = null;
         if(nextSet != null){
