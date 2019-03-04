@@ -1,3 +1,9 @@
+/*
+The main class for this project. It requires an input file where the nfa specifications are
+This takes the nfa file and produces an output.dfa file with the corresponding dfa specifications.
+
+Requires an arg of input file
+ */
 public class Converter {
 
     public static void main(String[] args){

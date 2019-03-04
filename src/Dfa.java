@@ -1,3 +1,14 @@
+/*
+This file containes the Dfa object specification and related functionality.
+This is the target object for the project.
+
+A Dfa is made up of:
+HashSet<String> language // all of the strings in the language available to the dfa
+State startState // The start state of the dfa
+HashSet<State> acceptStates //The accepting states of the dfa
+HashSet<State> states //all of the states in the dfa
+ */
+
 import java.io.*;
 import java.util.*;
 
@@ -18,6 +29,7 @@ class Dfa {
         language = lang;
     }
 
+    //adds a state to the dfa while also adding it to startState or acceptStates if it applies
     void addState(State state){
         if(state.isStart){
             startState = state;
@@ -28,6 +40,9 @@ class Dfa {
         states.add(state);
     }
 
+    //Changes the objects in the transitionFunction of a state to point to states in the
+    // dfa instead of those in the nfa.
+    // A helper function in the nfa to dfa conversion
     void dfaCleanup(){
         for(State state : states){
             for(String input : language){
@@ -49,7 +64,7 @@ class Dfa {
         }
     }
 
-
+    //writes the dfa to output.dfa
     void dfaWriter(){
         try{
             BufferedWriter writer = new BufferedWriter(new FileWriter("output.dfa"));

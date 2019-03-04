@@ -3,6 +3,13 @@ import java.util.*;
 import java.util.regex.*;
 /*
 This class is used to read the input NFA file and creates the NFA
+
+A Scanner is made of:
+HashSet<String> states //the name of the states of the nfa
+HashSet<String> language //the language of the nfa
+ArrayList<String> transFunctions // the transition functions of the nfa
+String startState //string of the start state
+HashSet<String> acceptStates //String of states to be added to nfa
  */
 
 
@@ -63,6 +70,7 @@ class Scanner {
         }
     }
 
+    //creates the Nfa object
     Nfa createNfa(){
         HashMap<String, State> nfaStates = new HashMap<>();
         Nfa nfa = new Nfa();

@@ -1,3 +1,15 @@
+/*
+This file contains the state class definition and related functionality.
+States are the basic objects cointained in nfa's and dfa's.
+
+States are made of :
+Hash<String> name //the name of the state
+boolean isStart // set to true if this state is a start state
+boolean isAccept //set to true if this state is an accept state
+HashMap<String, HashSet<State>> transitionFunction //A hashmap of the input and which state to transition to
+HashSet<State> eclosure //A collection of states found in the epsilon closure of this state
+*/
+
 import java.util.*;
 
 public class State {
@@ -80,6 +92,7 @@ public class State {
         return newState;
     }
 
+    //returns a HashSet<State> for all the states in the transition based on language
     HashSet<State> nextStates(String input) {
         HashSet<State> nextSet = transitionFunction.get(input);
         HashSet<State> next = null;
